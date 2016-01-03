@@ -176,7 +176,7 @@ return new ParserRunner(matchingType, registration, HelpGenerator);        }
         /// Run a parser of static verbs
         /// </summary>
         /// <param name="args">The user arguments</param>
-        public int RunStatic(string[] args)
+        public object RunStatic(string[] args)
         {
             return RunTargets(args, null as TargetResolver);
         }
@@ -186,13 +186,13 @@ return new ParserRunner(matchingType, registration, HelpGenerator);        }
         /// </summary>
         /// <param name="args">The user arguments</param>
         /// <param name="targets">The instances of the verb classes</param>
-        public int RunTargets(string[] args, params object[] targets)
+        public object RunTargets(string[] args, params object[] targets)
         {
             var targetResolver = new TargetResolver(targets);
             return RunTargets(args, targetResolver);
         }
 
-        public int RunTargets(string[] args, TargetResolver targetResolver)
+        public object RunTargets(string[] args, TargetResolver targetResolver)
         {
             ParserRunner parser;
 

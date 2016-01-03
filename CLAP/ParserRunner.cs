@@ -55,7 +55,7 @@ namespace CLAP
 
         #region Public Methods
 
-        public int Run(string[] args, object obj)
+        public object Run(string[] args, object obj)
         {
             return TryRunInternal(args, obj);
         }
@@ -64,7 +64,7 @@ namespace CLAP
 
         #region Private Methods
 
-        private int TryRunInternal(string[] args, object obj)
+        private object TryRunInternal(string[] args, object obj)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace CLAP
             }
         }
 
-        private int RunInternal(string[] args, object obj)
+        private object RunInternal(string[] args, object obj)
         {
             //
             // *** empty args are handled by the multi-parser
@@ -262,7 +262,7 @@ namespace CLAP
             return method;
         }
 
-        private int Execute(
+        private object Execute(
             object target,
             Method method,
             ParameterAndValue[] parameters)
@@ -273,6 +273,8 @@ namespace CLAP
 
             Exception verbException = null;
 
+            object returnValue = null;
+
             try
             {
                 // actual verb execution
@@ -281,7 +283,7 @@ namespace CLAP
                 {
                     // invoke the method with the list of parameters
                     //
-                    MethodInvoker.Invoke(method.MethodInfo, target, parameters.Select(p => p.Value).ToArray());
+                    returnValue = MethodInvoker.Invoke(method.MethodInfo, target, parameters.Select(p => p.Value).ToArray());
                 }
             }
             catch (TargetInvocationException tex)
@@ -313,7 +315,8 @@ namespace CLAP
                 }
             }
 
-            return verbException == null ? MultiParser.SuccessCode : MultiParser.ErrorCode;
+            return returnValue;
+            //return verbException == null ? MultiParser.SuccessCode : MultiParser.ErrorCode;
         }
 
         static void PreserveStackTrace(Exception e)

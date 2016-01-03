@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Threading;
 using CLAP;
 using CLAP.Validation;
+using System.Text;
 
 namespace ConsoleTest
 {
@@ -16,11 +17,19 @@ namespace ConsoleTest
             //Debugger.Launch();
 
             //Parser.RunConsole<TheApp>(args);
-            return Parser.RunConsole<ClapApp, SomeApp, TheApp>(args);
+            //return Parser.RunConsole<ClapApp, SomeApp, TheApp>(args);
             //return Parser.RunConsole<ClapApp>(args);
             //return Parser.RunConsole<SomeApp>(args);
             //Parser.Run<SomeApp, ClapApp>(args);
             //return Parser.RunConsole<DefaultApp>(args);
+
+            var response = Parser.Run<TheApp>(args, new TheApp());
+
+            Console.WriteLine(response);
+
+            Console.Read();
+
+            return 0;
         }
     }
 
@@ -218,7 +227,7 @@ namespace ConsoleTest
     class TheApp
     {
         [Verb(IsDefault = true, Description = "Prints 'Hello' and a name")]
-        public static void Hello(
+        public static string Hello(
 
             [Aliases("n")]
             [Required]
@@ -231,10 +240,14 @@ namespace ConsoleTest
             [Description("The number of lines to print")]
             int count)
         {
+            StringBuilder sb = new StringBuilder();
+
             for (int i = 0; i < count; i++)
             {
-                Console.WriteLine("Hello {0}", name);
+                sb.AppendFormat("Hello {0}\n", name);
             }
+
+            return sb.ToString();
         }
 
         [Verb]

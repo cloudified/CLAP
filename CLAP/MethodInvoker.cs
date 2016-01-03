@@ -15,24 +15,24 @@ namespace CLAP
             Invoker = new DefaultMethodInvoker();
         }
 
-        public static void Invoke(MethodInfo method, object obj, object[] parameters)
+        public static object Invoke(MethodInfo method, object obj, object[] parameters)
         {
             Debug.Assert(method != null);
 
-            Invoker.Invoke(method, obj, parameters);
+            return Invoker.Invoke(method, obj, parameters);
         }
 
         private class DefaultMethodInvoker : IMethodInvoker
         {
-            public void Invoke(MethodInfo method, object obj, object[] parameters)
+            public object Invoke(MethodInfo method, object obj, object[] parameters)
             {
-                method.Invoke(obj, parameters);
+                return method.Invoke(obj, parameters);
             }
         }
     }
 
     public interface IMethodInvoker
     {
-        void Invoke(MethodInfo method, object obj, object[] parameters);
+        object Invoke(MethodInfo method, object obj, object[] parameters);
     }
 }

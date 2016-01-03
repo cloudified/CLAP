@@ -703,9 +703,13 @@ namespace Tests
     {
         public Action<MethodInfo, object, object[]> Action { get; set; }
 
-        public void Invoke(MethodInfo method, object obj, object[] parameters)
+        public object Invoke(MethodInfo method, object obj, object[] parameters)
         {
+            //TODO: quick hack to compile
             Action(method, obj, parameters);
+            return null;
         }
+
+        
     }
 }
